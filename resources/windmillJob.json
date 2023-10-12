@@ -1,0 +1,32 @@
+{
+    "identifier": "windmillJobs",
+    "description": "This blueprint represents a windmill job in our software catalog",
+    "title": "Windmill",
+    "icon": "DefaultProperty",
+    "schema": {
+      "properties": {
+        "workspace": {
+          "type": "string",
+          "title": "Workspace"
+        },
+        "path": {
+          "type": "string",
+          "title": "File Path"
+        },
+        "trigerredBy": {
+          "type": "string",
+          "title": "Triggered By",
+          "format": "user"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "title": "Created At"
+        }
+      },
+      "required": []
+    },
+    "mirrorProperties": {},
+    "calculationProperties": {},
+    "relations": {}
+  }

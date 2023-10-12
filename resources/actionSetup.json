@@ -1,0 +1,35 @@
+[
+    {
+    "identifier": "trigger_windmill_workflow",
+    "title": "Trigger Windmill Workflow",
+    "icon": "DefaultProperty",
+    "description": "Trigger jobs in your windmill workspace",
+    "invocationMethod": { "type": "KAFKA" },
+    "userInputs": {
+      "properties": {
+        "workspace": {
+            "title": "Workspace",
+            "description": "The Workspace identifier",
+            "type": "string"
+          },
+          "file_path": {
+            "title": "File Path",
+            "description": "The path of the job script in the workspace, including the /u and /f prefix",
+            "type": "string"
+          },
+          "job_data": {
+            "title": "Job Data",
+            "description": "The data to be passed to the job in order to execute successfully",
+            "type": "object"
+          }
+      },
+      "required": [
+        "workspace",
+        "file_path",
+        "job_data"
+      ]
+    },
+    "trigger": "CREATE",
+    "requiredApproval": false
+  }
+]
