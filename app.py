@@ -3,29 +3,30 @@ import signal
 from typing import Any, Callable
 import requests
 import json
+import os
 
 from confluent_kafka import Consumer, KafkaException, Message
 
 KAFKA_CONSUMER_BROKERS: str = "b-1-public.publicclusterprod.t9rw6w.c1.kafka.eu-west-1.amazonaws.com:9196,b-2-public.publicclusterprod.t9rw6w.c1.kafka.eu-west-1.amazonaws.com:9196,b-3-public.publicclusterprod.t9rw6w.c1.kafka.eu-west-1.amazonaws.com:9196"
 KAFKA_CONSUMER_SECURITY_PROTOCOL: str = "SASL_SSL"
 KAFKA_CONSUMER_AUTHENTICATION_MECHANISM: str = "SCRAM-SHA-512"
-KAFKA_CONSUMER_USERNAME: str = "<KAFKA_CONSUMER_USERNAME>"
-KAFKA_CONSUMER_PASSWORD: str = "<KAFKA_CONSUMER_PASSWORD>"
+KAFKA_CONSUMER_USERNAME: str = os.getenv("KAFKA_CONSUMER_USERNAME")
+KAFKA_CONSUMER_PASSWORD: str = os.getenv("KAFKA_CONSUMER_PASSWORD")
 KAFKA_CONSUMER_SESSION_TIMEOUT_MS: int = 45000
 KAFKA_CONSUMER_AUTO_OFFSET_RESET: str = "earliest"
-KAFKA_CONSUMER_GROUP_ID: str = "<KAFKA_CONSUMER_GROUP_ID>"
-KAFKA_CONSUMER_CLIENT_ID = "<KAFKA_CONSUMER_CLIENT_ID>"
-KAFKA_RUNS_TOPIC: str = "<KAFKA_RUNS_TOPIC>"
+KAFKA_CONSUMER_GROUP_ID: str = os.getenv("KAFKA_CONSUMER_GROUP_ID")
+KAFKA_CONSUMER_CLIENT_ID = os.getenv("KAFKA_CONSUMER_CLIENT_ID")
+KAFKA_RUNS_TOPIC: str = os.getenv("KAFKA_RUNS_TOPIC")
 
-LOG_LEVEL: str = "INFO"
+LOG_LEVEL: str = os.getenv("LOG_LEVEL")
 
-PORT_CLIENT_ID = "<PORT_CLIENT_ID>"
-PORT_CLIENT_SECRET = "<PORT_CLIENT_SECRET>"
+PORT_CLIENT_ID = os.getenv("PORT_CLIENT_ID")
+PORT_CLIENT_SECRET = os.getenv("PORT_CLIENT_SECRET")
 
-API_URL = "https://api.getport.io/v1"
+API_URL = os.getenv("API_URL", default = "https://api.getport.io/v1")
 
-WINDMILL_API_TOKEN = "<WINDMILL_API_TOKEN>"
-WINDMILL_API_URL = "https://app.windmill.dev/api"
+WINDMILL_API_TOKEN = os.getenv("WINDMILL_API_TOKEN")
+WINDMILL_API_URL = os.getenv("WINDMILL_API_URL")
 
 
 
@@ -68,7 +69,7 @@ def msg_process(msg: Message) -> None:
 		# Triiger windmill job/workflow
 		windmill_webhook_response = trigger_windmill_job(workspace=properties['workspace'], script_path=properties['file_path'], data=properties['job_data'])
 		trigger_status = "SUCCESS" if windmill_webhook_response.json() is None else "FAILURE"
-		
+
         # Create run log
 		requests.post(insertLogsEndpoint, json={
 			"message": "Run completed successfully"
