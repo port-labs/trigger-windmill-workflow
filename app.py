@@ -68,7 +68,7 @@ def msg_process(msg: Message) -> None:
 		# Triiger windmill job/workflow
 		windmill_webhook_response = trigger_windmill_job(workspace=properties['workspace'], script_path=properties['file_path'], data=properties['job_data'])
 		trigger_status = "SUCCESS" if windmill_webhook_response.json() is None else "FAILURE"
-		
+
         # Create run log
 		requests.post(insertLogsEndpoint, json={
 			"message": "Run completed successfully"
