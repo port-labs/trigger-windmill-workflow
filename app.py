@@ -3,6 +3,7 @@ import signal
 from typing import Any, Callable
 import requests
 import json
+import os
 
 from confluent_kafka import Consumer, KafkaException, Message
 
